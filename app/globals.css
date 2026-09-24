@@ -1,0 +1,233 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+
+:root {
+  --background: #f4f7f3;
+  --foreground: #14251e;
+  --card: #ffffff;
+  --card-foreground: #14251e;
+  --popover: #ffffff;
+  --popover-foreground: #14251e;
+  --primary: #216b50;
+  --primary-foreground: #ffffff;
+  --secondary: #e9f1ec;
+  --secondary-foreground: #1c382b;
+  --muted: #edf1ed;
+  --muted-foreground: #65746b;
+  --accent: #d9f0df;
+  --accent-foreground: #163927;
+  --destructive: #bb3d42;
+  --border: #dbe5dd;
+  --input: #d6e2da;
+  --ring: #71a58a;
+  --chart-1: #216b50;
+  --chart-2: #e2a12e;
+  --chart-3: #d86f51;
+  --chart-4: #5798a9;
+  --chart-5: #7867b8;
+  --radius: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+.input {
+  height: 2.75rem;
+  width: 100%;
+  border: 1px solid #d6e2da;
+  border-radius: .75rem;
+  background: #fbfdfb;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  font-size: .875rem;
+  color: #14251e;
+  outline: none;
+}
+
+.input:focus { border-color: #216b50; }
+.input:disabled { opacity: .55; }
+
+@media (max-width: 1100px) {
+  .food-entry-fields { grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, .8fr) auto; }
+  .food-entry-fields > :first-child { grid-column: 1 / -1; }
+  .custom-food-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .custom-food-fields > :first-child { grid-column: 1 / 4; }
+  .custom-food-fields > :last-child { grid-column: 4; grid-row: 1; }
+}
+
+.kilo-app nav > div > button { border-radius: .75rem; }
+.kilo-app nav > div { transition: background-color 180ms ease, border-color 180ms ease; }
+.kilo-app nav > div:hover { background-color: #fff; border-color: #bcd8c4; }
+.kilo-app { width: 100%; overflow: hidden; }
+.kilo-app > div { min-width: 0; max-width: 100%; }
+.kilo-app > div > :is(aside, section) { min-width: 0; overflow-x: hidden; overscroll-behavior: contain; }
+
+.utensils-motion, .flame-motion { overflow: hidden; }
+.weight-motion { overflow: visible; }
+.dumbbell-motion { overflow: visible; }
+.icon-badge .dumbbell-motion { width: 22px; height: 22px; }
+.kilo-app svg.lucide-plus { width: 13px; height: 13px; }
+.utensils-motion g { transform-box: view-box; }
+.utensils-fork { transform-origin: 7px 21px; transform: rotate(0deg); }
+.utensils-knife { transform-origin: 17px 21px; transform: rotate(0deg); }
+
+@keyframes fork-cross {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(36deg); }
+}
+@keyframes knife-cross {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-36deg); }
+}
+.flame-motion { color: #147a4b; --flame-core: #e4f2e8; }
+.brand-mark { background-color: #216b50; }
+.brand-mark .flame-motion { width: 26px; height: 26px; color: #91e6ac; --flame-core: #216b50; }
+.kilo-app button:has(.flame-motion) > span:first-child { background-color: #e4f2e8; }
+.kilo-app button .flame-motion { width: 20px; height: 20px; }
+.flame-body { fill: currentColor; }
+.flame-core { fill: var(--flame-core); }
+@keyframes flame-shape {
+  0%, 100% { d: path("M12 2 C12.3 5.2 15.5 6.4 16.1 10.4 C17.1 9.5 17.7 8.2 17.3 6.8 C20 10 21.1 13.4 20.5 16.2 C19.7 20 16.4 22 12 22 C7.8 22 4 19.5 4 15.1 C4 12.2 5.5 9.9 6.8 8 C7.3 10 8.5 11 9.4 12 C9.1 8.6 10.8 5.9 12 2 Z"); }
+  28% { d: path("M10 2.5 C11.6 5.6 15.2 7 15.8 10.7 C17.2 9.2 17.5 8 17 6.4 C20.4 10.1 21 13.6 20.4 16.4 C19.5 20.1 16.2 22 12 22 C7.7 22 4 19.4 4 15.1 C4 12.1 5.3 10.2 6.2 8.6 C7.5 10.5 8.7 11 9.4 12 C9.2 8.3 10.1 5.4 10 2.5 Z"); }
+  57% { d: path("M14.2 2.1 C13.2 5.1 16.4 6.3 16.4 10.1 C17.1 9.5 18.2 8.6 18.2 7.4 C20.2 10.1 21.1 13.2 20.5 16.2 C19.7 20 16.4 22 12 22 C7.8 22 4 19.5 4 15.1 C4 12.1 5.8 9.8 7.2 7.9 C7.5 9.9 8.6 10.8 9.4 12 C9.1 8.6 11.4 5.7 14.2 2.1 Z"); }
+  78% { d: path("M11.7 2.8 C12.6 5.4 15.3 6.6 16.2 10.5 C17.2 9.8 17.8 8.3 17.5 7 C20.1 10 21 13.5 20.5 16.2 C19.7 20 16.4 22 12 22 C7.8 22 4 19.5 4 15.1 C4 12.2 5.4 10 6.9 8.2 C7.3 10.2 8.6 11.2 9.4 12 C9.4 8.8 10.7 5.6 11.7 2.8 Z"); }
+}
+@keyframes dumbbell-left-hop {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translateX(-2px); }
+}
+@keyframes dumbbell-right-hop {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translateX(2px); }
+}
+@keyframes dumbbell-outer-gap {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(var(--gap-x)); }
+}
+.dumbbell-left-outer { --gap-x: -2px; }
+.dumbbell-right-outer { --gap-x: 2px; }
+.dumbbell-motion rect { fill: #fff2da; }
+@keyframes icon-search { 0%, 100% { transform: translate(0, 0); } 40% { transform: translate(2px, -2px); } 70% { transform: translate(-1px, 1px); } }
+@keyframes icon-tilt { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-10deg); } 70% { transform: rotate(7deg); } }
+@keyframes weight-head-hop { 0%, 100% { transform: translateY(0); } 48% { transform: translateY(-3px); } 72% { transform: translateY(-1px); } }
+
+.kilo-app .utensils-motion[data-animating="true"] .utensils-fork { animation: fork-cross 520ms ease-in-out; }
+.kilo-app .utensils-motion[data-animating="true"] .utensils-knife { animation: knife-cross 520ms ease-in-out; }
+.kilo-app .flame-motion[data-animating="true"] .flame-body { animation: flame-shape 900ms ease-in-out; }
+.kilo-app .dumbbell-motion[data-animating="true"] .dumbbell-left-end { animation: dumbbell-left-hop 560ms ease-in-out; }
+.kilo-app .dumbbell-motion[data-animating="true"] .dumbbell-right-end { animation: dumbbell-right-hop 560ms ease-in-out; }
+.kilo-app .dumbbell-motion[data-animating="true"] :is(.dumbbell-left-outer, .dumbbell-right-outer) { animation: dumbbell-outer-gap 560ms ease-in-out; }
+.kilo-app .weight-motion[data-animating="true"] .weight-head { animation: weight-head-hop 550ms ease-in-out; }
+.kilo-app svg.lucide-settings-2[data-animating="true"] { animation: icon-tilt 480ms ease-in-out; }
+.kilo-app svg.lucide-trash-2[data-animating="true"],
+.kilo-app svg.lucide-x[data-animating="true"] { animation: icon-tilt 420ms ease-in-out; }
+.kilo-app svg.lucide-search[data-animating="true"] { animation: icon-search 500ms ease-in-out; color: #216b50; }
+.kilo-app svg.lucide-chevron-right { transition: translate 180ms ease, transform 180ms ease; }
+.kilo-app button:hover svg.lucide-chevron-right { translate: 2px 0; }
+
+.dropdown-float {
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(-8px) scale(.985);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 180ms;
+}
+
+.dropdown-float[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(.2, .8, .2, 1), visibility 0s;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+.toast-motion { animation: toast-in 180ms ease-out both; }
+.toast-motion[data-leaving="true"] { animation: toast-out 180ms ease-in both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kilo-app svg, .kilo-app svg *, .kilo-app nav > div { animation: none !important; transition: none !important; }
+  .kilo-app button:hover svg.lucide-chevron-right { translate: 0; }
+  .dropdown-float { transition: none; }
+  .toast-motion, .toast-motion[data-leaving="true"] { animation: none; }
+}
