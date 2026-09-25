@@ -4,6 +4,7 @@ export const exercises = [
   { id: "walk", name: "Yürüyüş (orta tempo)", met: 3.8, code: "17190" },
   { id: "brisk-walk", name: "Hızlı yürüyüş", met: 4.8, code: "17200" },
   { id: "jog", name: "Hafif koşu", met: 7.5, code: "12020" },
+  { id: "indoor-soccer", name: "Halı saha", met: 7.0, code: "15610" },
   { id: "cycle", name: "Bisiklet (orta tempo)", met: 7.0, code: "01016" },
   { id: "stationary-cycle", name: "Kondisyon bisikleti", met: 6.8, code: "01200" },
   { id: "swim", name: "Yüzme (rahat tempo)", met: 6.0, code: "18310" },
