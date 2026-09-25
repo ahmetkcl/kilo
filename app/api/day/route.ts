@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       const unit = payload.unit === "piece" ? "piece" : "grams";
       const amount = positive(payload.amount ?? payload.grams, unit === "piece" ? "Adet" : "Miktar");
       const portion = unit === "piece" ? food.portions[0] : null;
-      if (unit === "piece" && !portion) throw new Error("Bu besin adet ile girilemez; gram seçerek ekle.");
+      if (unit === "piece" && !portion) throw new Error("Bu besin porsiyon/adet ile girilemez; gram seçerek ekle.");
       const grams = portion ? amount * portion.grams : amount;
       const cookingMethod = String(payload.cookingMethod ?? "");
       const preparation = getFoodPreparation(food, cookingMethod);

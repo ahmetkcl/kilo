@@ -8,7 +8,8 @@ const prep = (method: string, kcal: number, protein: number, carbs: number, fat:
 // Fruit and low-fat fruit yogurt reference: USDA SR28, food groups 09 and 01.
 // https://www.ars.usda.gov/ARSUserFiles/80400525/Data/SR/SR28/reports/sr28fg09.pdf
 // https://www.ars.usda.gov/ARSUserFiles/80400525/Data/SR/SR28/reports/sr28fg01.pdf
-// Cooked options deliberately use distinct food entries; oil/sauce should be recorded separately.
+// Composite dishes below include their stated bread/rice/sauce; sides and drinks are separate unless named.
+// Generic restaurant portions are estimates, not brand nutrition labels.
 const methodData: Record<string, FoodPreparation[]> = {
   "tavuk-gogsu": [prep("Haşlama", 151, 28.5, 0, 3.0), prep("Izgara", 165, 31, 0, 3.6), prep("Fırın", 165, 31, 0, 3.6), prep("Kızartma", 246, 30, 8.5, 11.2)],
   "tavuk-but": [prep("Haşlama", 184, 24, 0, 9), prep("Izgara", 209, 26, 0, 11), prep("Fırın", 209, 26, 0, 11), prep("Kızartma", 260, 24, 8, 15)],
@@ -62,6 +63,29 @@ const portionData: Record<string, FoodPortion[]> = {
   "kiraz": [{ label: "1 adet kiraz", grams: 5 }],
   "kivi": [{ label: "1 orta boy kivi", grams: 69 }],
   "incir": [{ label: "1 orta boy taze incir", grams: 50 }],
+  // Whole prepared dishes default to one explicitly sized serving, while grams remain available.
+  "pizza": [{ label: "1 porsiyon (2 dilim)", grams: 200 }],
+  "pizza-karisik": [{ label: "1 porsiyon (2 dilim)", grams: 200 }],
+  "pizza-tavuklu": [{ label: "1 porsiyon (2 dilim)", grams: 200 }],
+  "hamburger": [{ label: "1 adet hamburger", grams: 180 }],
+  "cizburger": [{ label: "1 adet çizburger", grams: 170 }],
+  "big-mac": [{ label: "1 adet Big Mac", grams: 219 }],
+  "tavuk-burger": [{ label: "1 adet tavuk burger", grams: 180 }],
+  "balik-burger": [{ label: "1 adet balık burger", grams: 180 }],
+  "hot-dog": [{ label: "1 adet hot dog", grams: 170 }],
+  "nugget": [{ label: "1 porsiyon (6 adet)", grams: 100 }],
+  "patates-kizartmasi": [{ label: "1 küçük porsiyon", grams: 75 }],
+  "kumpir": [{ label: "1 adet kumpir", grams: 400 }],
+  "tavuklu-wrap": [{ label: "1 adet wrap", grams: 240 }],
+  "falafel-durum": [{ label: "1 adet dürüm", grams: 260 }],
+  "doner-et": [{ label: "1 porsiyon sade et", grams: 180 }],
+  "doner-tavuk": [{ label: "1 porsiyon sade tavuk", grams: 180 }],
+  "tavuk-doner-durum": [{ label: "1 adet dürüm", grams: 270 }],
+  "et-doner-durum": [{ label: "1 adet dürüm", grams: 270 }],
+  "tavuk-doner-ekmek": [{ label: "1 adet sandviç", grams: 300 }],
+  "et-doner-ekmek": [{ label: "1 adet sandviç", grams: 300 }],
+  "tavuk-doner-pilav": [{ label: "1 porsiyon pilav üstü", grams: 370 }],
+  "et-doner-pilav": [{ label: "1 porsiyon pilav üstü", grams: 370 }],
   "peynirli-sandvic": [{ label: "1 orta boy sandviç", grams: 170 }],
   "kasarli-tost": [{ label: "1 orta boy tost", grams: 150 }],
   "sucuklu-kasarli-tost": [{ label: "1 orta boy tost", grams: 180 }],
@@ -70,11 +94,49 @@ const portionData: Record<string, FoodPortion[]> = {
   "ton-balikli-sandvic": [{ label: "1 orta boy sandviç", grams: 180 }],
   "yumurtali-sandvic": [{ label: "1 orta boy sandviç", grams: 170 }],
   "kofteli-sandvic": [{ label: "1 orta boy sandviç", grams: 200 }],
+  "sucuklu-sandvic": [{ label: "1 adet sandviç", grams: 200 }],
+  "sebzeli-sandvic": [{ label: "1 adet sandviç", grams: 180 }],
+  "tavuk-sezar-sandvic": [{ label: "1 adet sandviç", grams: 210 }],
+  "menemen": [{ label: "1 porsiyon", grams: 250 }],
+  "corba-mercimek": [{ label: "1 kase", grams: 300 }],
+  "kuru-fasulye-yemegi": [{ label: "1 tabak", grams: 250 }],
+  "etli-kuru-fasulye": [{ label: "1 tabak", grams: 250 }],
+  "nohut-yemegi": [{ label: "1 tabak", grams: 250 }],
+  "etli-nohut": [{ label: "1 tabak", grams: 250 }],
+  "pirinc-pilavi": [{ label: "1 tabak", grams: 200 }],
+  "bulgur-pilavi": [{ label: "1 tabak", grams: 200 }],
+  "yayla-corbasi": [{ label: "1 kase", grams: 300 }],
+  "ezogelin-corbasi": [{ label: "1 kase", grams: 300 }],
   "lahmacun": [{ label: "1 adet lahmacun", grams: 125 }],
-  "izgara-kofte": [{ label: "1 orta boy köfte", grams: 30 }],
-  "zeytinyagli-yaprak-sarma": [{ label: "1 adet sarma", grams: 25 }],
-  "kabak-mucver": [{ label: "1 adet mücver", grams: 27 }],
+  "izgara-kofte": [{ label: "1 porsiyon (6 köfte)", grams: 180 }],
+  "zeytinyagli-yaprak-sarma": [{ label: "1 porsiyon (6 adet)", grams: 150 }],
+  "kabak-mucver": [{ label: "1 porsiyon (3 adet)", grams: 90 }],
   "peynirli-borek": [{ label: "1 dilim börek", grams: 70 }],
+  "karniyarik": [{ label: "1 porsiyon (2 küçük adet)", grams: 280 }],
+  "zeytinyagli-taze-fasulye": [{ label: "1 tabak", grams: 250 }],
+  "yogurtlu-manti": [{ label: "1 tabak", grams: 290 }],
+  "kisir": [{ label: "1 tabak", grams: 200 }],
+  "adana-kebap": [{ label: "1 porsiyon sade et", grams: 140 }],
+  "adana-kebap-tabak": [{ label: "1 tabak (et, lavaş, salata)", grams: 300 }],
+  "urfa-kebap-tabak": [{ label: "1 tabak (et, lavaş, salata)", grams: 300 }],
+  "tavuk-sis-tabak": [{ label: "1 tabak (tavuk, lavaş, salata)", grams: 320 }],
+  "et-sis-tabak": [{ label: "1 tabak (et, lavaş, salata)", grams: 320 }],
+  "karisik-izgara": [{ label: "1 tabak (et ve garnitür)", grams: 350 }],
+  "iskender-kebap": [{ label: "1 tabak", grams: 350 }],
+  "beyti-kebap": [{ label: "1 tabak", grams: 330 }],
+  "tavuk-sote": [{ label: "1 tabak", grams: 280 }],
+  "sac-kavurma": [{ label: "1 tabak", grams: 200 }],
+  "tas-kebabi": [{ label: "1 tabak", grams: 280 }],
+  "izmir-kofte": [{ label: "1 tabak", grams: 250 }],
+  "kabak-dolma": [{ label: "1 porsiyon (2 adet)", grams: 270 }],
+  "etli-turlu": [{ label: "1 tabak", grams: 280 }],
+  "kiymali-pide": [{ label: "1 adet pide", grams: 300 }],
+  "kasarli-pide": [{ label: "1 adet pide", grams: 300 }],
+  "kiymali-borek": [{ label: "1 porsiyon (2 dilim)", grams: 170 }],
+  "ispanakli-gozleme": [{ label: "1 adet gözleme", grams: 150 }],
+  "peynirli-gozleme": [{ label: "1 adet gözleme", grams: 150 }],
+  "tarhana-corbasi": [{ label: "1 kase", grams: 300 }],
+  "sehriye-corbasi": [{ label: "1 kase", grams: 300 }],
 };
 
 const rows = [
@@ -90,7 +152,34 @@ const rows = [
   ["seftali", "Şeftali", "Meyve", 39, 0.9, 9.5, 0.3], ["kayisi", "Kayısı", "Meyve", 48, 1.4, 11.1, 0.4], ["erik", "Erik", "Meyve", 46, 0.7, 11.4, 0.3], ["kiraz", "Kiraz", "Meyve", 63, 1.1, 16, 0.2],
   ["kivi", "Kivi", "Meyve", 61, 1.1, 14.7, 0.5], ["ananas", "Ananas", "Meyve", 50, 0.5, 13.1, 0.1], ["mango", "Mango", "Meyve", 60, 0.8, 15, 0.4],
   ["yaban-mersini", "Yaban mersini", "Meyve", 57, 0.7, 14.5, 0.3], ["ahududu", "Ahududu", "Meyve", 52, 1.2, 11.9, 0.7], ["nar", "Nar", "Meyve", 83, 1.7, 18.7, 1.2], ["incir", "İncir (taze)", "Meyve", 74, 0.8, 19.2, 0.3],
-  ["zeytinyagi", "Zeytinyağı", "Yağ", 884, 0, 0, 100], ["tereyagi", "Tereyağı", "Yağ", 717, 0.9, 0.1, 81], ["badem", "Badem", "Kuruyemiş", 579, 21.2, 21.6, 49.9], ["ceviz", "Ceviz", "Kuruyemiş", 654, 15.2, 13.7, 65.2], ["findik", "Fındık", "Kuruyemiş", 628, 15, 17, 61], ["fistik-ezmesi", "Fıstık ezmesi", "Kuruyemiş", 588, 25, 20, 50], ["bal", "Bal", "Tatlandırıcı", 304, 0.3, 82.4, 0], ["seker", "Toz şeker", "Tatlandırıcı", 387, 0, 100, 0], ["bitter-cikolata", "Bitter çikolata", "Atıştırmalık", 598, 7.8, 45.9, 42.6], ["protein-tozu", "Whey protein tozu", "Takviye", 400, 80, 10, 6], ["pizza", "Pizza (peynirli)", "Hazır yemek", 266, 11, 33, 10], ["hamburger", "Hamburger", "Hazır yemek", 295, 17, 24, 14], ["doner-et", "Et döner", "Hazır yemek", 215, 18, 5, 14], ["doner-tavuk", "Tavuk döner", "Hazır yemek", 190, 20, 5, 10], ["menemen", "Menemen", "Ev yemeği", 86, 4.8, 4.5, 5.6], ["corba-mercimek", "Mercimek çorbası", "Ev yemeği", 58, 3.2, 8.8, 1.2],
+  ["zeytinyagi", "Zeytinyağı", "Yağ", 884, 0, 0, 100], ["tereyagi", "Tereyağı", "Yağ", 717, 0.9, 0.1, 81], ["badem", "Badem", "Kuruyemiş", 579, 21.2, 21.6, 49.9], ["ceviz", "Ceviz", "Kuruyemiş", 654, 15.2, 13.7, 65.2], ["findik", "Fındık", "Kuruyemiş", 628, 15, 17, 61], ["fistik-ezmesi", "Fıstık ezmesi", "Kuruyemiş", 588, 25, 20, 50], ["bal", "Bal", "Tatlandırıcı", 304, 0.3, 82.4, 0], ["seker", "Toz şeker", "Tatlandırıcı", 387, 0, 100, 0], ["bitter-cikolata", "Bitter çikolata", "Atıştırmalık", 598, 7.8, 45.9, 42.6], ["protein-tozu", "Whey protein tozu", "Takviye", 400, 80, 10, 6],
+  // Full ready-to-eat products; the default serving above includes the bread/fillings named here.
+  // Big Mac and small fries use McDonald's Türkiye product values; the unbranded dishes are ingredient-based estimates.
+  // https://www.mcdonalds.com.tr/mcdonalds-lezzetleri/burgerler/big-mac
+  // https://www.mcdonalds.com.tr/mcdonalds-lezzetleri/atistirmaliklar/patates-kizartmasi
+  ["pizza", "Pizza (peynirli)", "Hazır yemek", 266, 11, 33, 10],
+  ["pizza-karisik", "Karışık pizza", "Hazır yemek", 280, 12, 30, 12],
+  ["pizza-tavuklu", "Tavuklu pizza", "Hazır yemek", 250, 13, 30, 9],
+  ["hamburger", "Hamburger", "Hazır yemek", 295, 17, 24, 14],
+  ["cizburger", "Çizburger", "Hazır yemek", 285, 16, 25, 14],
+  ["big-mac", "Big Mac", "Hazır yemek", 240, 11.9, 23.5, 11.5],
+  ["tavuk-burger", "Tavuk burger", "Hazır yemek", 260, 12, 27, 11],
+  ["balik-burger", "Balık burger", "Hazır yemek", 245, 12, 25, 11],
+  ["hot-dog", "Hot dog", "Hazır yemek", 270, 10, 26, 14],
+  ["nugget", "Tavuk nugget", "Hazır yemek", 270, 16, 17, 15],
+  ["patates-kizartmasi", "Patates kızartması", "Hazır yemek", 292, 3.2, 37.2, 15.3],
+  ["kumpir", "Kumpir (garnitürlü)", "Hazır yemek", 165, 4, 21, 7],
+  ["tavuklu-wrap", "Tavuklu wrap", "Hazır yemek", 220, 15, 21, 8.5],
+  ["falafel-durum", "Falafel dürüm", "Hazır yemek", 230, 8, 28, 9.5],
+  ["tavuk-doner-durum", "Tavuk döner dürüm", "Hazır yemek", 200, 12, 20, 7],
+  ["tavuk-doner-ekmek", "Tavuk döner ekmek arası", "Hazır yemek", 200, 12, 22, 7],
+  ["tavuk-doner-pilav", "Pilav üstü tavuk döner", "Hazır yemek", 172, 10, 17, 7],
+  ["doner-tavuk", "Tavuk döner (sade et)", "Hazır yemek", 190, 20, 5, 10],
+  ["et-doner-durum", "Et döner dürüm", "Hazır yemek", 220, 12, 20, 10],
+  ["et-doner-ekmek", "Et döner ekmek arası", "Hazır yemek", 220, 12, 22, 10],
+  ["et-doner-pilav", "Pilav üstü et döner", "Hazır yemek", 188, 10, 17, 9],
+  ["doner-et", "Et döner (sade et)", "Hazır yemek", 215, 18, 5, 14],
+  ["menemen", "Menemen", "Ev yemeği", 86, 4.8, 4.5, 5.6], ["corba-mercimek", "Mercimek çorbası", "Ev yemeği", 85, 3.2, 11.5, 2.6],
   // Assembled sandwich estimates based on USDA FNDDS ingredient profiles; bread, fillings and sauces vary.
   ["peynirli-sandvic", "Peynirli sandviç", "Sandviç", 235, 10, 29, 9],
   ["kasarli-tost", "Kaşarlı tost", "Sandviç", 305, 13, 30, 15],
@@ -100,6 +189,9 @@ const rows = [
   ["ton-balikli-sandvic", "Ton balıklı sandviç", "Sandviç", 225, 15, 24, 7.5],
   ["yumurtali-sandvic", "Yumurtalı sandviç", "Sandviç", 250, 12, 25, 11],
   ["kofteli-sandvic", "Köfteli sandviç", "Sandviç", 270, 16, 27, 11],
+  ["sucuklu-sandvic", "Sucuklu sandviç", "Sandviç", 290, 13, 27, 14],
+  ["sebzeli-sandvic", "Sebzeli sandviç", "Sandviç", 190, 6, 30, 5],
+  ["tavuk-sezar-sandvic", "Tavuk Sezar sandviç", "Sandviç", 235, 17, 22, 9],
   // Turkish dish energy/protein: Turkish Renal Food Guide (PRNT), 100 g cooked recipe values.
   // Carbohydrate and fat are approximate recipe-based splits; homemade preparations vary.
   // https://theipna.org/wp-content/uploads/2026/04/FINAL-Turkish-Renal-Food-Guide_energy-and-protein-March-2025.pdf
@@ -120,14 +212,35 @@ const rows = [
   ["kabak-mucver", "Kabak mücver", "Türk yemeği", 200, 5.7, 14, 13.5],
   ["peynirli-borek", "Peynirli börek", "Türk yemeği", 375, 9.8, 34, 22.2],
   ["kisir", "Kısır", "Türk yemeği", 175, 3.8, 26, 6.2],
-  ["adana-kebap", "Adana kebap", "Türk yemeği", 335, 17.6, 1, 29],
+  ["adana-kebap", "Adana kebap (sade et)", "Türk yemeği", 335, 17.6, 1, 29],
+  // Restaurant-style plates and dürüms are composite estimates including the stated accompaniments.
+  ["adana-kebap-tabak", "Adana kebap tabak", "Türk yemeği", 245, 14, 13, 15],
+  ["urfa-kebap-tabak", "Urfa kebap tabak", "Türk yemeği", 225, 15, 13, 13],
+  ["tavuk-sis-tabak", "Tavuk şiş tabak", "Türk yemeği", 175, 16, 15, 6],
+  ["et-sis-tabak", "Et şiş tabak", "Türk yemeği", 220, 16, 15, 10],
+  ["karisik-izgara", "Karışık ızgara", "Türk yemeği", 240, 18, 12, 13],
+  ["iskender-kebap", "İskender kebap", "Türk yemeği", 210, 13, 17, 10],
+  ["beyti-kebap", "Beyti kebap", "Türk yemeği", 225, 14, 20, 10],
+  ["tavuk-sote", "Tavuk sote", "Türk yemeği", 130, 9.1, 6, 7.5],
+  ["sac-kavurma", "Sac kavurma", "Türk yemeği", 330, 24.9, 2, 24.5],
+  ["tas-kebabi", "Tas kebabı", "Türk yemeği", 85, 8.3, 5, 3.5],
+  ["izmir-kofte", "İzmir köfte", "Türk yemeği", 110, 6.2, 9, 5.5],
+  ["kabak-dolma", "Kabak dolma", "Türk yemeği", 80, 4.7, 8, 3],
+  ["etli-turlu", "Etli türlü", "Türk yemeği", 75, 4.5, 6, 3.7],
+  ["kiymali-pide", "Kıymalı pide", "Türk yemeği", 260, 11, 32, 10],
+  ["kasarli-pide", "Kaşarlı pide", "Türk yemeği", 280, 12, 31, 12],
+  ["kiymali-borek", "Kıymalı börek", "Türk yemeği", 260, 9, 29, 12],
+  ["ispanakli-gozleme", "Ispanaklı gözleme", "Türk yemeği", 270, 7, 35, 11],
+  ["peynirli-gozleme", "Peynirli gözleme", "Türk yemeği", 285, 11, 32, 13],
+  ["tarhana-corbasi", "Tarhana çorbası", "Türk yemeği", 50, 1.5, 7, 1.8],
+  ["sehriye-corbasi", "Şehriye çorbası", "Türk yemeği", 60, 1.7, 10, 1.6],
 ] as const;
 
 export const foods: Food[] = rows.map(([id, name, category, kcal, protein, carbs, fat]) => {
-  const defaultMethod = category === "Sandviç" ? "Hazır" : category === "Türk yemeği" ? "Ev yapımı" : category === "Meyve" ? "Çiğ" : "Doğal";
+  const defaultMethod = category === "Sandviç" || category === "Hazır yemek" ? "Hazır" : category === "Türk yemeği" || category === "Ev yemeği" ? "Ev yapımı" : category === "Meyve" ? "Çiğ" : "Doğal";
   const preparations = methodData[id] ?? [prep(defaultMethod, kcal, protein, carbs, fat)];
   const primary = preparations[0];
-  const displayCategory = category === "Sandviç" || category === "Türk yemeği" ? `${category} · ortalama tarif` : category;
+  const displayCategory = category === "Sandviç" || category === "Türk yemeği" || category === "Hazır yemek" || category === "Ev yemeği" ? `${category} · ortalama porsiyon` : category;
   return { id, name, category: displayCategory, kcal: primary.kcal, protein: primary.protein, carbs: primary.carbs, fat: primary.fat, preparations, portions: portionData[id] ?? [] };
 });
 
